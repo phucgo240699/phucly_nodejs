@@ -4,17 +4,22 @@ var hbs = require('hbs')
 
 var app = express()
 
-
-const publicDirectoryPath = path.join(__dirname, '/public')
-
-console.log(publicDirectoryPath)
 app.listen(process.env.PORT || 3000)
 
-app.set('view engine', 'hbs')
-app.set('views','./views')
+// Define paths for Express config
+const publicDirectoryPath = path.join(__dirname, './public')
+const viewsPath = path.join(__dirname, './templates/views')
+const partialsPath = path.join(__dirname, './templates/partials')
 
+// Setup handlebars engine and views location
+app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+hbs.registerPartials(partialsPath)
+
+// Setup static directory to serve
 app.use(express.static(publicDirectoryPath))
 
+console.log(__dirname)
 
 app.get('/', (request, response) => {
     response.render('homepage')
